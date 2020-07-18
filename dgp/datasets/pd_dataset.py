@@ -95,8 +95,11 @@ class _ParallelDomainDataset(_SynchronizedDataset):
                 bbox_3d for idx, bbox_3d in enumerate(coalesced_pc['class_ids']) if idx in unique_idx
             ])
 
-        assert len(coalesced_pc['bounding_box_3d']) == len(coalesced_pc['class_ids'])
-        assert len(coalesced_pc['bounding_box_3d']) == len(coalesced_pc['instance_ids'])
+        if 'bounding_box_3d' in coalesced_pc:
+            if 'class_ids' in coalesced_pc:
+                assert len(coalesced_pc['bounding_box_3d']) == len(coalesced_pc['class_ids'])
+            if 'instance_ids' in coalesced_pc:
+                assert len(coalesced_pc['bounding_box_3d']) == len(coalesced_pc['instance_ids'])
 
         return coalesced_pc
 
